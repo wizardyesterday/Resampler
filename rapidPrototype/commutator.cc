@@ -1,33 +1,26 @@
 //*************************************************************************
-// File name: noisyPcm.cc
+// File name: commutator.cc
 //*************************************************************************
 
 //*************************************************************************
-// This program tests anadaptive noise cnceller when driven by PCM data
-// that has noise injected into the samples.  Two  selectable output file
-// types . Thll be written to sdtout.e first file will contain PCM samples
-// that are perturbed by additive white Gaussian noise. The second file
-// will contain noise-reduced PCM samples. The user selects the output
-// file type via a command line argument.
+// This program was written to explore concepts related to polyphase
+// resampler concepts such that the sample rate can be scaled by L/M
+// where L, M assume positive integer values.
+//
+// Presently, L has to be >= M. If L = M, interpolation is controlled.
+// If L > M, both, interpolation and decimation are controlled.
 //
 // To run this program type,
 // 
-//     ./noisyPcm -t filetype -v noiseVariance -l filterLength
-//      -d delay -b beta < inputFileName > outputFileName,
+//     ./commutator -l interpolationFactor -m decimationFactor
 //
 // where,
 //
-//    filetype - Either noisy or noise-reduced.
+//    interpolationFactor - A positive integer that  specifies the sample
+//    rate increase.
 //
-//    noiseVariance - The variance of the noise source.
-//
-//    filterLength  The number of taps for the nonrecursive filter in
-//    the adaptive noise canceller.
-//
-//    delay - The number of unit delays used by the adaptive noise
-//    canceller.
-//
-//    beta - The convergence factor used by the adaptive noise canceller.
+//     decimationFactor - A positive integer that  specifies the sample
+//    rate decrease.
 ///*************************************************************************
 
 #include <stdio.h>
@@ -43,9 +36,12 @@ struct MyParameters
   uint32_t *decimationFactorPtr;
 };
 
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // Globals.
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 uint32_t interpolationFactor;
-uint32_t decimatonFactor;
+uint32_t decimationFactor;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 /*****************************************************************************
 
@@ -148,8 +144,6 @@ bool exitProgram;
   uint32_t l;
   uint32_t m;
   uint32_t my;
-  uint32_t interpolationFactor;
-  uint32_t decimationFactor;
   struct MyParameters parameters;
 
   // Set up for parameter transmission.
@@ -176,6 +170,17 @@ bool exitProgram;
 
   for (n = 0; n < count; n++)
   {
+    //******************************************************* 
+    // This block of code performs the commutation function
+    // For both interpolation and decimation.  The outer
+    // loop performs the indexing for polyphase subfilter
+    // access, and the modulo counter, m, is used to select
+    // The approiate polyphase subfilter to operate during
+    // the interpolation operation. The selection occurs
+    // when m wraps back to zero (overflows) due to the
+    // relation: m = (m + 1) modulo M, where M is the
+    // decimation factor.
+    //******************************************************* 
     for (l = 0; l < interpolationFactor; l++)
     {
       if ((m % decimationFactor) == 0)
@@ -186,7 +191,10 @@ bool exitProgram;
         my++;
       } 
 
+      // Increment the decimator commutator index at the same rate
+      // as the interpolation commutator index   
       m = (m + 1) % decimationFactor;
+      //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
     } // for
 
