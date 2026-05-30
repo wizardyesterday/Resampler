@@ -11,7 +11,7 @@
 // Transition Band: 7000 < F <= 7900 Hz.
 // Stop Band: 7900 < F < 8000 Hz.
 // Passband Ripple: 0.01
-// Stopband Ripple: 0.001
+// Stopband Ripple: 0.005
 //
 // Note that the filter length will be automatically  calculated
 // from the filter parameters.
@@ -31,7 +31,7 @@ Fsample = 16000
 Fp = 7000;
 
 // Stopband edge.
-Fs = 9000;
+Fs = 7900;
 
 // The desired audio bandwidth.
 F = [0 Fp; Fs Fsample/2];
@@ -48,7 +48,7 @@ deltaS = 0.005;
 // Number of taps for our filter.
 n = computeFilterOrder(deltaP,deltaS,deltaF,Fs)
 
-// Ensure that the filter order is a multiple of 3.
+// Ensure that the filter order is a multiple of 5.
 n = computeNextMultiple(n,5);
 
 //******************************************************************
@@ -57,10 +57,13 @@ n = computeNextMultiple(n,5);
 //******************************************************************
 
 //------------------------------------------------------------------
-// This will be an antialiasing filter the preceeds the 1:3
+// This will be an image reject filter the preceeds the 1:5
 // expander
 //------------------------------------------------------------------
 h = eqfir(n,F/Fsample,[1 0],[1/deltaP 1/deltaS]);
+
+// Compensate for interpolation factor of 5.
+h = h * 5;
 
 // Compute magnitude and frequency points.
 [hm,fr] = frmag(h,1024);
@@ -70,7 +73,7 @@ h = eqfir(n,F/Fsample,[1 0],[1/deltaP 1/deltaS]);
 //******************************************************************
 set("figure_style","new");
 
-title("Antialiasing Filter - Sample Rate: 16000 S/s  (interpolated)");
+title("Antimaging Filter - Sample Rate: 80000 S/s  (interpolated)");
 a = gca();
 a.margins = [0.225 0.1 0.125 0.2];
 a.grid = [1 1];
