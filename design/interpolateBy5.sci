@@ -1,8 +1,8 @@
 //******************************************************************
 // This program generates the required filter coefficients so that
-// an input signal, that is sampled at 8000 S/s can be interpolated 
-// to 16000 S/s.  We want to limit the bandwidth of the aliasing
-// filter to 3400 Hz.  The filter coefficients are computed by
+// an input signal, that is sampled at 16000 S/s can be interpolated 
+// to 80000 S/s.  We want to limit the bandwidth of the aliasing
+// filter to 7900 Hz.  The filter coefficients are computed by
 // the minimax function, and the result is an equiripple linear
 // phase FIR filter.
 // The filter specifications are listed below.
@@ -10,8 +10,8 @@
 // Pass Band: 0 <= F <= 7000 Hz.
 // Transition Band: 7000 < F <= 7900 Hz.
 // Stop Band: 7900 < F < 8000 Hz.
-// Passband Ripple: 0.01
-// Stopband Ripple: 0.005
+// Passband Ripple: 0.05
+// Stopband Ripple: 0.01
 //
 // Note that the filter length will be automatically  calculated
 // from the filter parameters.
@@ -24,8 +24,8 @@ exec('utils.sci',-1);
 //******************************************************************
 // Set up parameters.
 //******************************************************************
-// Sample rate is 16000 S/s.
-Fsample = 16000
+// Sample rate is 80000 S/s.
+Fsample = 80000;
 
 // Passband edge.
 Fp = 7000;
@@ -40,10 +40,10 @@ F = [0 Fp; Fs Fsample/2];
 deltaF = (Fs - Fp) / Fsample;
 
 // Passband ripple
-deltaP = 0.01;
+deltaP = 0.05;
 
 // Stopband ripple.
-deltaS = 0.005;
+deltaS = 0.01;
 
 // Number of taps for our filter.
 n = computeFilterOrder(deltaP,deltaS,deltaF,Fs)
@@ -78,6 +78,6 @@ a = gca();
 a.margins = [0.225 0.1 0.125 0.2];
 a.grid = [1 1];
 a.x_label.text = "F, Hz";
-a.y_label.text = "|H|";
-plot2d(fr*Fsample,hm);
+a.y_label.text = "|H|(dB)";
+plot2d(fr*Fsample,20*log10(hm));
 
