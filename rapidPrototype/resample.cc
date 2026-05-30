@@ -47,7 +47,7 @@ float coef[] =
    0.1191287,
   -0.0786330,
    0.0493479,
-  -0.0403405
+  -0.040340
 };
 
 //*************************************************************************
@@ -64,10 +64,7 @@ int main(int argc,char **argv)
   InterpolatorLM *myResamplerPtr;
 
   // Instantiate a resampler with ratio L/M = 5/2).
-  myResamplerPtr = new InterpolatorLM(sizeof(coef)/5,coef,5,2);
-
-  // Reference the beginning of the output buffer.
-  outputBufferIndex = 0;
+  myResamplerPtr = new InterpolatorLM(sizeof(coef)/sizeof(float),coef,5,2);
 
   // Set up for loop entry.
   done = false;
@@ -84,6 +81,9 @@ int main(int argc,char **argv)
     } // if
     else
     {
+      // Reference the beginning of the output buffer.
+      outputBufferIndex = 0;
+
       for (i = 0; i < count; i++)
       {
         // Interpolate the samples.
@@ -94,7 +94,7 @@ int main(int argc,char **argv)
         // Convert to 16-bit little endian PCM samples.
         for (m = 0; m < sampleCount; m++)
         {
-          outputBuffer[m] = (int16_t)floatBuffer[m];
+          outputBuffer[outputBufferIndex + m] = (int16_t)floatBuffer[m];
         } // for
 
         // Write the next block of interpolated samples.
