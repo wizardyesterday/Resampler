@@ -59,9 +59,8 @@ DecimatorM::DecimatorM(int filterLength,
   // Initial value.
   outputSummer = 0;
 
-  // Let's make that polyphase filter.
-  createPolyphaseSubfilters(filterLength,
-                            coefficientsPtr);
+  // Let's make that polyphase filter structure.
+  createPolyphaseSubfilters(coefficientsPtr);
 
   // Set the filter state to an initial value.
   resetFilterState();
@@ -186,8 +185,7 @@ void DecimatorM::resetFilterState(void)
     None.
 
 *****************************************************************************/
-void DecimatorM::createPolyphaseSubfilters(int filterLength,
-                                           float *coefficientsPtr)
+void DecimatorM::createPolyphaseSubfilters(float *coefficientsPtr)
 {
   int i, j, index;
   int lookupIndex;

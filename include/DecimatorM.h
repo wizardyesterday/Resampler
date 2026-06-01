@@ -57,8 +57,7 @@ class DecimatorM
 
   private:
 
-  void createPolyphaseSubfilters(int filterLength,
-                                 float *coefficientsPtr);
+  void createPolyphaseSubfilters(float *coefficientsPtr);
 
   //***************************** attributes **************************
   private:
