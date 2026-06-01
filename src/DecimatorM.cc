@@ -50,17 +50,8 @@ DecimatorM::DecimatorM(int filterLength,
   // Save for later use.
   this->decimationFactor = decimationFactor;
 
-  // Polyphase filter lengths needed for later.
-  polyphaseFilterLength = filterLength / decimationFactor;
-
-  // Start out with the first commutator position.
-  decimatorCommutatorIndex = decimationFactor - 1;
-
-  // Initial value.
-  outputSummer = 0;
-
   // Let's make that polyphase filter structure.
-  createPolyphaseSubfilters(coefficientsPtr);
+  createPolyphaseSubfilters(filterLength,coefficientsPtr,decimationFactor);
 
   // Set the filter state to an initial value.
   resetFilterState();
@@ -106,9 +97,7 @@ DecimatorM::~DecimatorM(void)
   Name: resetFilterState
 
   Purpose: The purpose of this function is to reset the filter state to its
-  initial values.  This includes setting the ring buffer index to the
-  beginning of the filter state memory and setting all entries of the
-  filter state memory to a value of 0.
+  initial values.
 
   Calling Sequence: resetFilterState()
 
@@ -125,11 +114,17 @@ void DecimatorM::resetFilterState(void)
 {
   int i;
 
-  // Clear the filter state.
+  // Clear the state of the subfilters.
   for (i = 0; i < polyphaseFilterLength; i++)
   {
     subfilterPtr[i]->resetFilterState();
   } // for
+
+  // Start out with the first commutator position.
+  decimatorCommutatorIndex = decimationFactor - 1;
+
+  // Clear the output accumulator.
+  outputSummer = 0;
 
   return;
 
@@ -137,7 +132,7 @@ void DecimatorM::resetFilterState(void)
 
 /*****************************************************************************
 
-  Name: createPolyphaseCoefficients
+  Name: createPolyphaseSubfilters
 
   Purpose: The purpose of this function is to create the polyphase filter
   array given the decimation factor and an array of coefficients that
@@ -150,17 +145,13 @@ void DecimatorM::resetFilterState(void)
   h - Prototype filter coefficient array.
   pi - Polyphase filter cofficient array for ith subfilter.
 
-  The aggregate polyphase filter array is arranged as illustrated below.
+  Each pi has coefficients as illustrated below.
 
-  p0,p1,...pL-1.
-
-  Each pi is arranged as illustrated below.
-
-  p0  : h(0),h(L),h(2L)....
-  p1  : h(1),h(L+1),h(2L+2)...
+  p0  : h(0),h(M),h(2M)....
+  p1  : h(1),h(ML+1),h(2M+2)...
   .
   .
-  pL-1: h(L-1),h(2L-1),h(3L-1)....
+  pM-1: h(M-1),h(2M-1+1),h(3M-1+2)....
 
   Let's provide an example.  Consider that the prototype filter has 8
   taps, and the decimation factor is 4.  Our pi polyphase filters
@@ -171,23 +162,32 @@ void DecimatorM::resetFilterState(void)
   p2: h(2),h(6)
   p3: h(3),h(7)  
 
-  Calling Sequence: createPolyphaseCoefficients(coefficientPtr);
+  Calling Sequence: createPolyphaseSubfilters(coefficientPtr);
 
   Inputs:
 
+    filterLength - The number of taps for the prototype filter.
+
     coefficientPtr - A pointer to the prototype filter coefficients.
+
+    decimationFactor - The decimation factor of the decimator.
 
   Outputs:
 
     None.
 
 *****************************************************************************/
-void DecimatorM::createPolyphaseSubfilters(float *coefficientsPtr)
+void DecimatorM::createPolyphaseSubfilters(int filterLength,
+                                          float *coefficientsPtr,
+                                          int decimationFactor)
 {
   int i, j, index;
   int lookupIndex;
   float *coefficientStoragePtr;
  
+  // Polyphase filter lengths needed for later.
+  polyphaseFilterLength = filterLength / decimationFactor;
+
   // Allocate temporary storage for the filter state.
   coefficientStoragePtr = new float[polyphaseFilterLength];
 
@@ -212,7 +212,7 @@ void DecimatorM::createPolyphaseSubfilters(float *coefficientsPtr)
       // Make this easier to follow.
       lookupIndex = i + (j * decimationFactor);
 
-      // Permute the coefficients.
+      // Decimate the coefficients.
       coefficientStoragePtr[j] = coefficientsPtr[lookupIndex];
 
       // Reference the next location for storage of the permuted coefficients.
@@ -237,19 +237,19 @@ void DecimatorM::createPolyphaseSubfilters(float *coefficientsPtr)
   Name:  decimate
 
   Purpose: The purpose of this function is to perform the function of a
-  decimator that decimates by the factor L/M.  Here's how things
-  work.  First, the sample is pushed into the pipeline.  Next, the selected
-  FIR subfilter is invoked using the appropriate polyphase filter and the
-  filtered output is stored in next location in the output buffer. This
-  filtering operation is conditionally performed the number of times as
-  dictated by the value of the decimation factor divided by the
-  decimation factor.  For example, if the decimation factor were equal to
-  4 and the decimation factor were equal to 3, there would exist 4 sets of
-  polyphase coefficients, but only every third set would be presented to
-  the FIR filter.
-  The bottom line is that for every input sample, L/M output samples are
-  generated, given that L is the decimation factor and M is the decimation
-  factor..
+  decimator that decimates by the factor M.  Here's how things work.
+  First, the a sample is presented to the subfilter that is selected by
+  the current commutator index, and the output is added to the output
+  summer (the summer is an accumulator). The commutator index is
+  decremented so that the next lower-numbered subfilter will be selected
+  when the next input sample arrives. If the commutator index becomes
+  negative, it is understood that a commutator cycle has completed (all
+  subfilters have been run). At this point, the output summer value is
+  returned to the caller (stored to the location referenced by the caller
+  via a supplied argument), the commutator index is set to use the highest-
+  numbered subfilter, and the output summer is cleared to zero to be
+  used during the next commutator cycle. Additionally a value of true is
+  returned by this function to indicate to the caller that data is available.
 
   Calling Sequence:  outputSampleCount = decimate(inputSample,
                                                      outputBufferPtr)
@@ -263,7 +263,9 @@ void DecimatorM::createPolyphaseSubfilters(float *coefficientsPtr)
 
   Outputs:
 
-    outputSampleCount - The number of samples that were retained.
+    dataAvailable - A flag that indicates whether or not data is available.
+    A value of true indicates that a decimated sample value is available,
+    and a value of false indicates that it is not.
 
 *****************************************************************************/
 bool DecimatorM::decimate(float inputSample,float *outputPtr)

@@ -56,9 +56,6 @@ InterpolatorLM::InterpolatorLM(int filterLength,
   this->interpolationFactor = interpolationFactor;
   this->decimationFactor = decimationFactor;
 
-  // Start out with commutator position 0.
-  decimationCommutatorIndex = 0;
-
   // Let's make that polyphase filter.
   createPolyphaseCoefficients(filterLength,
                               coefficientsPtr,
@@ -126,6 +123,9 @@ void InterpolatorLM::resetFilterState(void)
 
   // Set to the beginning of filter state memory.
   ringBufferIndex = 0;
+
+  // Start out with commutator position 0.
+  decimationCommutatorIndex = 0;
 
   // Clear the filter state.
   for (i = 0; i < polyphaseFilterLength; i++)
@@ -230,7 +230,7 @@ float InterpolatorLM::filterData(float *coefficientsPtr)
 
   Inputs:
 
-    filterLength - The number of taps for the filter.
+    filterLength - The number of taps for the prototype filter.
 
     coefficientPtr - A pointer to the prototype filter coefficients.
 
