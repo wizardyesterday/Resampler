@@ -53,7 +53,7 @@ class DecimatorM
 
   void resetFilterState(void);
 
-  bool decimate(float inputSample,float *outputBufferPtr);
+  bool decimate(float inputSample,float *outputPtr);
 
   private:
 
@@ -70,9 +70,6 @@ class DecimatorM
 
   // Modulo M counter, where, M is the decimation ratio.
   int decimatorCommutatorIndex;
-
-  // Accumulator for subfilter outputs.
-  float subfilterAccumulator;
 
   // This references an array of FIR filter objects.
   FirFilter **subfilterPtr;

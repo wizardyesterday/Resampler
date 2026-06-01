@@ -24,7 +24,8 @@ class FirFilter
   ~FirFilter(void);
 
   void resetFilterState(void);
-  float filterData(float x);
+  void shiftSampleIn(float x);
+  float filterData(void);
 
   //***************************** attributes **************************
   private:
