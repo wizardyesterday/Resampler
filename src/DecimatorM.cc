@@ -58,8 +58,7 @@ DecimatorM::DecimatorM(int filterLength,
 
   // Let's make that polyphase filter.
   createPolyphaseSubfilters(filterLength,
-                            coefficientsPtr,
-                            decimationFactor);
+                            coefficientsPtr);
 
   // Set the filter state to an initial value.
   resetFilterState();
@@ -171,8 +170,7 @@ void DecimatorM::resetFilterState(void)
   p3: h(3),h(7)  
 
   Calling Sequence: createPolyphaseCoefficients(filterLength,
-                                                coefficientPtr,
-                                                decimationFactor)
+                                                coefficientPtr);
 
   Inputs:
 
@@ -180,17 +178,13 @@ void DecimatorM::resetFilterState(void)
 
     coefficientPtr - A pointer to the prototype filter coefficients.
 
-    decimationFactor - The decimation factor of the decimator.
-
-
   Outputs:
 
     None.
 
 *****************************************************************************/
 void DecimatorM::createPolyphaseSubfilters(int filterLength,
-                                           float *coefficientsPtr,
-                                           int decimationFactor)
+                                           float *coefficientsPtr)
 {
   int i, j, index;
   int lookupIndex;
