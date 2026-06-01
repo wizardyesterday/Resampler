@@ -71,6 +71,9 @@ class DecimatorM
   // Modulo M counter, where, M is the decimation ratio.
   int decimatorCommutatorIndex;
 
+  // This accumulates samples during a commutation cycle.
+  float outputSummer;
+
   // This references an array of FIR filter objects.
   FirFilter **subfilterPtr;
 };

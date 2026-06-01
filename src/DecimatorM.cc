@@ -56,6 +56,9 @@ DecimatorM::DecimatorM(int filterLength,
   // Start out with the first commutator position.
   decimatorCommutatorIndex = decimationFactor - 1;
 
+  // Initial value.
+  outputSummer = 0;
+
   // Let's make that polyphase filter.
   createPolyphaseSubfilters(filterLength,
                             coefficientsPtr);
@@ -271,31 +274,24 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
 bool DecimatorM::decimate(float inputSample,float *outputPtr)
 {
   bool dataAvailable;
-  float decimatedSample;
-  int i;
 
   // Indicate that no data is available.
   dataAvailable = false;
 
   // Send the sample to the currently selected subfilter.
-  subfilterPtr[decimatorCommutatorIndex]->shiftSampleIn(inputSample);
+  outputSummer += 
+    subfilterPtr[decimatorCommutatorIndex]->filterData(inputSample);
 
   // Reference the next polyphase branch.
   decimatorCommutatorIndex--;
 
   if (decimatorCommutatorIndex < 0)
   {
-    // Clear for the following operation.
-    decimatedSample = 0;
-
-    // Add the computed outputs from all of the polyphase subfilters.
-    for (i = 0; i < decimationFactor; i++)
-    {
-      decimatedSample += subfilterPtr[i]->filterData();
-    } // for
-
     // We now have the decimated result.
-    *outputPtr = decimatedSample;
+    *outputPtr = outputSummer;
+
+    // Clear for the next commutation cycle.
+    outputSummer = 0;
 
     // Reset the commutator.
     decimatorCommutatorIndex = decimationFactor - 1;
