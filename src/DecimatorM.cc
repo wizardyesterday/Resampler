@@ -50,6 +50,9 @@ DecimatorM::DecimatorM(int filterLength,
   // Save for later use.
   this->decimationFactor = decimationFactor;
 
+  // Polyphase filter lengths needed for later.
+  polyphaseFilterLength = filterLength / decimationFactor;
+
   // Start out with the first commutator position.
   decimatorCommutatorIndex = decimationFactor - 1;
 
@@ -192,10 +195,6 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
   int i, j, index;
   int lookupIndex;
   float *coefficientStoragePtr;
-  uint32_t polyphaseFilterLength;
-
-  // Polyphase filter lengths.
-  polyphaseFilterLength = filterLength / decimationFactor;
  
   // Allocate temporary storage for the filter state.
   coefficientStoragePtr = new float[polyphaseFilterLength];
