@@ -171,12 +171,9 @@ void DecimatorM::resetFilterState(void)
   p2: h(2),h(6)
   p3: h(3),h(7)  
 
-  Calling Sequence: createPolyphaseCoefficients(filterLength,
-                                                coefficientPtr);
+  Calling Sequence: createPolyphaseCoefficients(coefficientPtr);
 
   Inputs:
-
-    filterLength - The number of taps for the filter.
 
     coefficientPtr - A pointer to the prototype filter coefficients.
 
