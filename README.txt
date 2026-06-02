@@ -15,7 +15,25 @@ function that is used for a polyphase resampler.
 
 To build the test application, type 'sh buildResampler.sh'.
 
-To build the commutator application, navigate to the rapidPrototype directory,
-and type 'g++ -o commutator commutator.cc.
+To build the interpolator commutator application, navigate to the
+rapidPrototype directory, and type 'g++ -o commutator commutator.cc.
 
+A decimator decreases a sequence at one sample rate to a lower sample rate.
+This decimator is implemwnted as a polyphase decimator with its associated
+input commutator function. The sample rate is reduced by a factor of M,
+and if M is equal to one, no decimation will be performed.
+
+To build the decimator application, type 'sh buildDecimator'.
+
+The InterpolatorLM object and thetorM object are not the most optimal code,
+But for learning purposes, I believe that there should be a one-to-one
+mapping between what you see in a textbook presentation and the implementation.
+These objects are more than adequate to use for SDR purposes.
+
+I hope that others will learn from my code. If this occurs, I have achieved
+my mission: to share knowledge.
+
+Feel free to rovide questions, suggesstions and criticisms.
+
+IRC: irc.libera.chat, wizardyesterday, ##rtlsdr
 
