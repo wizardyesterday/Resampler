@@ -115,7 +115,7 @@ void DecimatorM::resetFilterState(void)
   int i;
 
   // Clear the state of the subfilters.
-  for (i = 0; i < polyphaseFilterLength; i++)
+  for (i = 0; i < decimationFactor; i++)
   {
     subfilterPtr[i]->resetFilterState();
   } // for
@@ -184,10 +184,12 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
   int i, j;
   int lookupIndex;
   float *coefficientStoragePtr;
-  FirFilter *yo;
  
   // Polyphase filter lengths needed for later.
   polyphaseFilterLength = filterLength / decimationFactor;
+
+  // Allocate storage for pointers to FirFilter objects.
+  subfilterPtr = new FirFilter * [decimationFactor]; 
 
   // Allocate temporary storage for the filter state.
   coefficientStoragePtr = new float[polyphaseFilterLength];
