@@ -219,7 +219,7 @@ float InterpolatorLM::filterData(float *coefficientsPtr)
   Each pi is arranged as illustrated below.
 
   p0  : h(0),h(L),h(2L)....
-  p1  : h(1),h(L+1),h(2L+2)...
+  p1  : h(1),h(L+1),h(2L+1)...
   .
   .
   pL-1: h(L-1),h(2L-1),h(3L-1)....
@@ -255,7 +255,7 @@ void InterpolatorLM::createPolyphaseCoefficients(int filterLength,
                                                float *coefficientsPtr,
                                                int interpolationFactor)
 {
-  int i, j, index;
+  int i, j;
   int lookupIndex;
 
   // Polyphase filter lengths.
@@ -280,7 +280,7 @@ void InterpolatorLM::createPolyphaseCoefficients(int filterLength,
   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
   for (i = 0; i < interpolationFactor; i++)
   {
-    // Allocate subbfilter coefficient array.
+    // Allocate a subbfilter coefficient array.
     coefficientStoragePtr[i] = new float[polyphaseFilterLength];
 
     for (j = 0; j < polyphaseFilterLength; j++)
@@ -288,7 +288,7 @@ void InterpolatorLM::createPolyphaseCoefficients(int filterLength,
       // Make this easier to follow.
       lookupIndex = i + (j * interpolationFactor);
 
-      // Permute the coefficients.
+      // Decimate the coefficients.
       coefficientStoragePtr[i][j] = coefficientsPtr[lookupIndex];
 
     } // for
