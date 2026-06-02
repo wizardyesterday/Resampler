@@ -82,11 +82,14 @@ DecimatorM::~DecimatorM(void)
 {
   int i;
 
-  // Release resources.
+  // Release subfilters
   for (i = 0; i < decimationFactor; i++)
   {
     delete subfilterPtr[i];
   } // for
+
+  // Release the pointer array. 
+  delete[] subfilterPtr;
 
   return;
 
