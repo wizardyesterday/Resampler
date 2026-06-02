@@ -74,7 +74,7 @@ class InterpolatorLM
   int polyphaseFilterLength;
 
   // Pointer to the storage for the polyphase filter coefficients.
-  float *coefficientStoragePtr;
+  float **coefficientStoragePtr;
 
   // Pointer to the filter state (previous samples).
   float *filterStatePtr;

@@ -88,9 +88,18 @@ InterpolatorLM::InterpolatorLM(int filterLength,
 *****************************************************************************/
 InterpolatorLM::~InterpolatorLM(void)
 {
+  int i;
 
-  // Release resources.
+  // Release subfilter coefficients.
+  for (i = 0; i < interpolationFactor; i++)
+  {
+    delete coefficientStoragePtr[i];
+  } // for
+
+  // Release the pointer array.
   delete[] coefficientStoragePtr;
+
+  // Release the shared polyphase filter state.
   delete[] filterStatePtr;
 
   return;
@@ -253,13 +262,10 @@ void InterpolatorLM::createPolyphaseCoefficients(int filterLength,
   polyphaseFilterLength = filterLength / interpolationFactor;
  
   // Allocate storage for polyphase filter coefficients.
-  coefficientStoragePtr = new float[filterLength];
+  coefficientStoragePtr = new float * [interpolationFactor];
 
   // Allocate storage for the filter state.
   filterStatePtr = new float[polyphaseFilterLength];
-
- // Reference the beginning of the polyphase coefficients.
-  index = 0;
 
   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
   // The outer loop increments through the polyphase
@@ -274,16 +280,17 @@ void InterpolatorLM::createPolyphaseCoefficients(int filterLength,
   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
   for (i = 0; i < interpolationFactor; i++)
   {
+    // Allocate subbfilter coefficient array.
+    coefficientStoragePtr[i] = new float[polyphaseFilterLength];
+
     for (j = 0; j < polyphaseFilterLength; j++)
     {
       // Make this easier to follow.
       lookupIndex = i + (j * interpolationFactor);
 
       // Permute the coefficients.
-      coefficientStoragePtr[index] = coefficientsPtr[lookupIndex];
+      coefficientStoragePtr[i][j] = coefficientsPtr[lookupIndex];
 
-      // Reference the next location for storage of the permuted coefficients.
-      index++;
     } // for
   } // for
 
@@ -377,7 +384,7 @@ uint32_t InterpolatorLM::interpolate(float inputSample,float *outputBufferPtr)
     {
       // Run the selected subfilter.
       outputBufferPtr[outputSampleCount] =
-          filterData(&coefficientStoragePtr[i * polyphaseFilterLength]);
+          filterData(coefficientStoragePtr[i]);
 
       // Another interpolated output has been saved.
       outputSampleCount++;
@@ -386,6 +393,7 @@ uint32_t InterpolatorLM::interpolate(float inputSample,float *outputBufferPtr)
     // Increment modulo M, where M is the decimation factor.
     decimationCommutatorIndex =
       (decimationCommutatorIndex + 1) % decimationFactor;
+
   } // for
 
   // We're done, so advance the pipeline.
