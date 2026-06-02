@@ -181,18 +181,17 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
                                           float *coefficientsPtr,
                                           int decimationFactor)
 {
-  int i, j, index;
+  int i, j;
   int lookupIndex;
-  float *coefficientStoragePtr;
+//  float *coefficientStoragePtr;
+  static float coefficientStoragePtr[2000];
+  FirFilter *yo;
  
   // Polyphase filter lengths needed for later.
   polyphaseFilterLength = filterLength / decimationFactor;
 
   // Allocate temporary storage for the filter state.
-  coefficientStoragePtr = new float[polyphaseFilterLength];
-
- // Reference the beginning of the polyphase coefficients.
-  index = 0;
+//  coefficientStoragePtr = new float[polyphaseFilterLength];
 
   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
   // The outer loop increments through the polyphase
@@ -215,8 +214,6 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
       // Decimate the coefficients.
       coefficientStoragePtr[j] = coefficientsPtr[lookupIndex];
 
-      // Reference the next location for storage of the permuted coefficients.
-      index++;
     } // for
 
     // Allocate a subfilter.
@@ -226,7 +223,7 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
   } // for
 
   // We do't need this anymore.
-  delete coefficientStoragePtr;
+//  delete coefficientStoragePtr;
 
   return;
 
