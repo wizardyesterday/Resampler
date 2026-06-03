@@ -1,5 +1,5 @@
 //**************************************************************************
-// file name: InterpolatorLM.h
+// file name: Resampler.h
 //**************************************************************************
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // This class implements a signal processing block known as an
@@ -36,27 +36,27 @@
 // retained.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-#ifndef __INTERPOLATORLM__
-#define __INTERPOLATORLM__
+#ifndef __RESAMPLER__
+#define __RESAMPLER__
 
 #include <stdint.h>
 
-class InterpolatorLM
+class Resampler
 {
   //***************************** operations **************************
 
   public:
 
-  InterpolatorLM(int filterLength,
-               float *coefficientsPtr,
-               int interpolationFactor,
-               int decimationFactor);
+  Resampler(int filterLength,
+            float *coefficientsPtr,
+            int interpolationFactor,
+            int decimationFactor);
 
-  ~InterpolatorLM(void);
+  ~Resampler(void);
 
   void resetFilterState(void);
 
-  uint32_t interpolate(float inputSample,float *outputBufferPtr);
+  uint32_t resample(float inputSample,float *outputBufferPtr);
 
   private:
 
@@ -92,4 +92,4 @@ class InterpolatorLM
   int decimationCommutatorIndex;
 };
 
-#endif // __INTERPOLATORLM__
+#endif // __RESAMPLER__

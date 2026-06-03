@@ -1,20 +1,20 @@
 //************************************************************************
-// file name: InterpolatorLM.cc
+// file name: Resampler.cc
 //************************************************************************
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "InterpolatorLM.h"
+#include "Resampler.h"
 
 using namespace std;
 
 /*****************************************************************************
 
-  Name: InterpolatorLM
+  Name: Resampler
 
   Purpose: The purpose of this function is to serve as the constructor for
-  an instance of an InterpolatorLM.  One thing should be mentioned.  The
+  an instance of an Resampler.  One thing should be mentioned.  The
   filter size needs to be an integer multiple of the interpolation factor
   so that the polyphase L polyphase filters have the same number of taps.
   The advantage of using polyphase filters is that, rather than stuffing
@@ -23,8 +23,9 @@ using namespace std;
   sample rate. After interpolation the samples are decimated by the
   decimation factor. The result is an interpolation by L/M, where L is
   the interpolation factor and M is the decimation factor.
+  If L < M, decimation will occur.
 
-  Calling Sequence: InterpolatorLM(filterLength,
+  Calling Sequence: Resampler(filterLength,
                                  coefficientsPtr,
                                  interpolationFactor,
                                  decimationFaxtor)
@@ -44,7 +45,7 @@ using namespace std;
     None.
 
 *****************************************************************************/
-InterpolatorLM::InterpolatorLM(int filterLength,
+Resampler::Resampler(int filterLength,
                            float *coefficientsPtr,
                            int interpolationFactor,
                            int decimationFactor)
@@ -66,16 +67,16 @@ InterpolatorLM::InterpolatorLM(int filterLength,
 
   return;
 
-} // InterpolatorLM
+} // Resampler
 
 /*****************************************************************************
 
-  Name: ~InterpolatorLM
+  Name: ~Resampler
 
   Purpose: The purpose of this function is to serve as the destructor for
-  an instance of an InterpolatorLM.
+  an instance of an Resampler.
 
-  Calling Sequence: ~InterpolatorLM()
+  Calling Sequence: ~Resampler()
 
   Inputs:
 
@@ -86,7 +87,7 @@ InterpolatorLM::InterpolatorLM(int filterLength,
     None.
 
 *****************************************************************************/
-InterpolatorLM::~InterpolatorLM(void)
+Resampler::~Resampler(void)
 {
   int i;
 
@@ -104,7 +105,7 @@ InterpolatorLM::~InterpolatorLM(void)
 
   return;
 
-} // ~InterpolatorLM
+} // ~Resampler
 
 /*****************************************************************************
 
@@ -126,7 +127,7 @@ InterpolatorLM::~InterpolatorLM(void)
     None.
 
 *****************************************************************************/
-void InterpolatorLM::resetFilterState(void)
+void Resampler::resetFilterState(void)
 {
   int i;
 
@@ -165,7 +166,7 @@ void InterpolatorLM::resetFilterState(void)
     y - The output value of the filter.
 
 *****************************************************************************/
-float InterpolatorLM::filterData(float *coefficientsPtr)
+float Resampler::filterData(float *coefficientsPtr)
 {
   float *h, y;
   int k, xIndex;
@@ -251,7 +252,7 @@ float InterpolatorLM::filterData(float *coefficientsPtr)
     None.
 
 *****************************************************************************/
-void InterpolatorLM::createPolyphaseCoefficients(int filterLength,
+void Resampler::createPolyphaseCoefficients(int filterLength,
                                                float *coefficientsPtr,
                                                int interpolationFactor)
 {
@@ -316,7 +317,7 @@ void InterpolatorLM::createPolyphaseCoefficients(int filterLength,
     None.
 
 *****************************************************************************/
-void InterpolatorLM::advancePipeline(void)
+void Resampler::advancePipeline(void)
 {
 
   // Increment the index in a modulo fashion.
@@ -333,7 +334,7 @@ void InterpolatorLM::advancePipeline(void)
 
 /*****************************************************************************
 
-  Name:  interpolate
+  Name: resample
 
   Purpose: The purpose of this function is to perform the function of an
   interpolator that interpolates by the factor L/M.  Here's how things
@@ -350,22 +351,22 @@ void InterpolatorLM::advancePipeline(void)
   generated, given that L is the interpolation factor and M is the decimation
   factor..
 
-  Calling Sequence:  outputSampleCount = interpolate(inputSample,
-                                                     outputBufferPtr)
+  Calling Sequence:  outputSampleCount = resam`ple(inputSample,
+                                                   outputBufferPtr)
 
   Inputs:
 
     inputSample - A pointer to a buffer to be decimated.
 
     outputBufferPtr - A pointer to storage that is to accept the
-    interpolated data.
+    interpolated (or decimated if L < M) data.
 
   Outputs:
 
     outputSampleCount - The number of samples that were retained.
 
 *****************************************************************************/
-uint32_t InterpolatorLM::interpolate(float inputSample,float *outputBufferPtr)
+uint32_t Resampler::resample(float inputSample,float *outputBufferPtr)
 {
   int i;
   uint32_t outputSampleCount;
@@ -401,5 +402,5 @@ uint32_t InterpolatorLM::interpolate(float inputSample,float *outputBufferPtr)
 
   return (outputSampleCount);
 
-} // interpolate
+} // resample
 

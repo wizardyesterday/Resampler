@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <math.h>
 
-#include "InterpolatorLM.h"
+#include "Resampler.h"
 
 // Globals.
 int16_t inputBuffer[32768];
@@ -176,10 +176,10 @@ int main(int argc,char **argv)
   uint32_t sampleCount;
   int outputBufferIndex;
   bool done;
-  InterpolatorLM *myResamplerPtr;
+  Resampler *myResamplerPtr;
 
   // Instantiate a resampler with ratio L/M = 5/2).
-  myResamplerPtr = new InterpolatorLM(sizeof(coef)/sizeof(float),coef,5,2);
+  myResamplerPtr = new Resampler(sizeof(coef)/sizeof(float),coef,5,2);
 
   // Set up for loop entry.
   done = false;
@@ -203,8 +203,8 @@ int main(int argc,char **argv)
       {
         // Interpolate the samples.
         sampleCount = 
-          myResamplerPtr->interpolate((float)inputBuffer[i],
-                                       floatBuffer);
+          myResamplerPtr->resample((float)inputBuffer[i],
+                                   floatBuffer);
 
         // Convert to 16-bit little endian PCM samples.
         for (m = 0; m < sampleCount; m++)

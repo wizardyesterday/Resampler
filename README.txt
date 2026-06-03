@@ -1,9 +1,10 @@
 A resampler increases a sequence sampled  at one sample rate to a sequence that is sampled at a diferent sample rate. This resampler is implemented using a
 polyphase filter structure with the associated commutation functions for
 interpolation and decimation such that the sample rate is increased by a
-factor of L/M, L >= M. L is the integer interpolation factor and M is the
+factor of L/M, where L is the integer interpolation factor and M is the
 integer decimation factor. If M is equal to one, the result is interpolation
-by L.
+by L. If L is equal to M, neither interpolation nor decimation is performed.
+If L is equal to 1, decimation by M is performed.
 
 The source and included directories contain the implementation and definitions
 of the resampler code.
@@ -28,15 +29,11 @@ and if M is equal to one, no decimation will be performed.
 
 To build the decimator application, type 'sh buildDecimator'.
 
-The InterpolatorLM object and thetorM object are not the most optimal code,
-But for learning purposes, I believe that there should be a one-to-one
-mapping between what you see in a textbook presentation and the implementation.
+The Resampler object and the DecimatortorM object are not the most
+optimal code, But for learning purposes, I believe that there should be a
+one-to-one mapping between what you see in a textbook presentation and the
+implementation.
 These objects are more than adequate to use for SDR purposes.
-
-In the future, I may decide to implement a resampler that decimates an input
-sequence by L/M (L/M < 1). More than likely, I'll create a different C++
-object and enhance the dest program to deal with both, the interpolation
-case and the decimation case. I'll have to do more research on this matter.
 
 I hope that others will learn from my code. If this occurs, I will have
 achieved my mission: to successfully share knowledge.
