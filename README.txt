@@ -4,7 +4,8 @@ interpolation and decimation such that the sample rate is increased by a
 factor of L/M, where L is the integer interpolation factor and M is the
 integer decimation factor. If M is equal to one, the result is interpolation
 by L. If L is equal to M, neither interpolation nor decimation is performed.
-If L is equal to 1, decimation by M is performed.
+If L is equal to 1, decimation by M is performed. If M is equal to zero,
+it will be set to one in order to prevent division by zero.
 
 The source and included directories contain the implementation and definitions
 of the resampler code.

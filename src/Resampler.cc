@@ -52,6 +52,11 @@ Resampler::Resampler(int filterLength,
 {
   int i;
 
+  if (decimationFactor == 0)
+  {
+    // Se, we'll just interpolate.
+    decimationFactor = 1;
+  } // if
 
   // Save for later use.
   this->interpolationFactor = interpolationFactor;
