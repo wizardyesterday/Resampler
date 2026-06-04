@@ -2,8 +2,9 @@
 // file name: Resampler.h
 //**************************************************************************
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-// This class implements a signal processing block known as an
-// interpolator.  An interpolator consists of a sampline rate expander
+// This class implements a signal processing block known as a ampler, which
+// contains an interpolator followed by a commutator to perform decimation.
+// An interpolator consists of a sampline rate expander
 // followed by an anti-imaging filter.  To make things more efficient,
 // a polyphase filter structure is used.  Essentially, one starts out
 // with a prototype filter, designed with the interpolated sample rate
@@ -22,18 +23,12 @@
 // coefficients in each polyphase filter.
 // This causes a constraint on the number of taps in the prototype filter.
 // They must be an integer mutiple of the decimation factor.  That is,
-// given a prototype filter length of N, and a decimation factor of L,
+// given a prototype filter length of N, and an interpolation factor of L,
 // q = N/L must be an integer since that is the number of taps in each
 // polyphase filter.
 // There is one difference between this interpolator and other interpolators:
 // This interpolator can interpolate by a factor of L/M, where L is the
-// interpolation ratio and M is the decimation ratio. The constraints on
-// L and M are, L >= M. If L is equal to M, interpolation by L is
-// performed since M is equal to unity. If L is greater than M,
-// interpolation by L/M is performed. As an example, suppose that L = 5
-// and M = 3. The net result will be that the input sequence will be
-// interpolated by 5, and every third sample of the interpolator will be
-// retained.
+// interpolation ratio and M is the decimation ratio.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 #ifndef __RESAMPLER__
