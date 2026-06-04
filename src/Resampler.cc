@@ -135,7 +135,7 @@ void Resampler::resetFilterState(void)
   ringBufferIndex = 0;
 
   // Start out with commutator position 0.
-  decimationCommutatorIndex = 0;
+  decimationCounter = 0;
 
   // Clear the filter state.
   for (i = 0; i < polyphaseFilterLength; i++)
@@ -381,7 +381,7 @@ uint32_t Resampler::resample(float inputSample,float *outputBufferPtr)
   for (i = 0; i < interpolationFactor; i++)
   {
     // This actually performs the decimation by M.
-    if (decimationCommutatorIndex == 0)
+    if (decimationCounter == 0)
     {
       // Run the selected subfilter.
       outputBufferPtr[outputSampleCount] =
@@ -392,8 +392,8 @@ uint32_t Resampler::resample(float inputSample,float *outputBufferPtr)
     } // if
 
     // Increment modulo M, where M is the decimation factor.
-    decimationCommutatorIndex =
-      (decimationCommutatorIndex + 1) % decimationFactor;
+    decimationCounter =
+      (decimationCounter + 1) % decimationFactor;
 
   } // for
 

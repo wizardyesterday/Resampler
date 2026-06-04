@@ -82,7 +82,7 @@ class Resampler
   int decimationFactor;
 
   // Modulo M counter, where, M is the decimation ratio.
-  int decimationCommutatorIndex;
+  int decimationCounter;
 };
 
 #endif // __RESAMPLER__
