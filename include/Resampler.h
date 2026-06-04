@@ -2,8 +2,9 @@
 // file name: Resampler.h
 //**************************************************************************
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-// This class implements a signal processing block known as a ampler, which
-// contains an interpolator followed by a commutator to perform decimation.
+// This class implements a signal processing block known as a resampler,
+// which contains an interpolator followed by a commutator to perform
+// decimation.
 // An interpolator consists of a sampline rate expander
 // followed by an anti-imaging filter.  To make things more efficient,
 // a polyphase filter structure is used.  Essentially, one starts out
@@ -26,9 +27,6 @@
 // given a prototype filter length of N, and an interpolation factor of L,
 // q = N/L must be an integer since that is the number of taps in each
 // polyphase filter.
-// There is one difference between this interpolator and other interpolators:
-// This interpolator can interpolate by a factor of L/M, where L is the
-// interpolation ratio and M is the decimation ratio.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 #ifndef __RESAMPLER__
