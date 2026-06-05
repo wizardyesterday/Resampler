@@ -124,7 +124,7 @@ void DecimatorM::resetFilterState(void)
   } // for
 
   // Start out with the first commutator position.
-  decimatorCommutatorIndex = 0;
+  decimatorCommutatorIndex = decimationFactor - 1;
 
   // Clear the output accumulator.
   outputSummer = 0;
