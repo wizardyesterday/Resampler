@@ -65,5 +65,3 @@ Single
 4 0 0 50 0 0 14 0.0000 4 165 720 6435 2430 FIR Filters\001
 4 0 0 50 0 0 12 0.0000 4 180 1845 10260 3735 Decimated Output Sample, y(m)\001
 4 0 0 50 0 0 12 0.0000 4 180 1065 4320 5580 Input Sample, x(n)\001
-4 0 0 50 0 0 12 0.0000 4 180 2925 585 4950 The commutator index decrements by 1 modulo M.\001
-4 0 0 50 0 0 12 0.0000 4 180 2835 585 5085 It is initially set to M-1,as shown on the diagram.\001
