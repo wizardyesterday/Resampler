@@ -32,6 +32,45 @@ Single
 	 7650 3240 8955 3240 8955 3465 7650 3465 7650 3240
 4 0 0 50 0 0 12 0.0000 4 180 570 7965 3420 Pipwlinw\001
 -6
+6 6390 3645 8505 4815
+4 0 0 50 0 0 12 0.0000 4 165 2085 6390 3780 Each time the counter wraps around,\001
+4 0 0 50 0 0 12 0.0000 4 150 1815 6390 4020 The switch, associated with the\001
+4 0 0 50 0 0 12 0.0000 4 180 2055 6390 4260 current Interpolator Index is closed,\001
+4 0 0 50 0 0 12 0.0000 4 180 1815 6390 4500 and the Convolver performs the\001
+4 0 0 50 0 0 12 0.0000 4 180 510 6390 4740 filtering.\001
+-6
+6 7740 1170 9360 1845
+4 0 0 50 0 0 12 0.0000 4 180 1605 7740 1305 Selected coefficient set plus\001
+4 0 0 50 0 0 12 0.0000 4 180 1410 7740 1545 pipeline plus Convolver\001
+4 0 0 50 0 0 12 0.0000 4 180 1275 7740 1785 represent an FIR filter.\001
+-6
+6 1350 3240 3375 4140
+4 0 0 50 0 0 12 0.0000 4 180 1725 1350 3375 For eaching incoming sample,\001
+4 0 0 50 0 0 12 0.0000 4 180 1695 1350 3615 x(n), the Interpolator Index is\001
+4 0 0 50 0 0 12 0.0000 4 180 1995 1350 3855 initially set to zero and increments\001
+4 0 0 50 0 0 12 0.0000 4 165 570 1350 4095 up to L-1.\001
+-6
+6 765 5355 4050 8145
+4 0 0 50 0 0 12 0.0000 4 180 660 810 5490 Algorithm:\001
+4 0 0 50 0 0 12 0.0000 4 180 3240 810 5730 1. New sample, x(n), arrives - insert sample into pipeline\001
+4 0 0 50 0 0 12 0.0000 4 180 1950 810 5970 2. Interpolator Insex is set to zero.\001
+4 0 0 50 0 0 12 0.0000 4 150 2175 810 6210 3. IF Modulo M Counter value is zero.\001
+4 0 0 50 0 0 12 0.0000 4 180 2880 810 6450 3.1 Close switxh referenced by Interpolator Index.\001
+4 0 0 50 0 0 12 0.0000 4 180 2820 810 6690 3,1 Convolve the pipeline with the selected filter\001
+4 0 0 50 0 0 12 0.0000 4 165 2580 810 6930    coefficients, referenced by the Coef Pointer.\001
+4 0 0 50 0 0 12 0.0000 4 165 1620 810 7170 3.2 Generat the y(m) output.\001
+4 0 0 50 0 0 12 0.0000 4 150 2130 810 7410 4. Increment The Modulo M Counter.\001
+4 0 0 50 0 0 12 0.0000 4 180 1785 810 7650 5. Increment Interpolator Index\001
+4 0 0 50 0 0 12 0.0000 4 195 1875 810 7875 6. Repeat Steps 3 to 5, L-1 times.\001
+4 0 0 50 0 0 12 0.0000 4 180 1185 765 8100 7. Advance pipeline.\001
+-6
+6 8145 6930 10980 8055
+4 0 0 50 0 0 12 0.0000 4 180 2775 8145 7065 An input sample, x(n) is sent to the Interpolator,\001
+4 0 0 50 0 0 12 0.0000 4 180 2625 8145 7305 and the Interpolator provides output samples.\001
+4 0 0 50 0 0 12 0.0000 4 180 2625 8145 7785 and the number of samples written is returned\001
+4 0 0 50 0 0 12 0.0000 4 180 2805 8145 7545 These samples are written to the provided buffer,\001
+4 0 0 50 0 0 12 0.0000 4 150 705 8145 8025 to the caller.\001
+-6
 2 2 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 5
 	 3690 1440 4950 1440 4950 1800 3690 1800 3690 1440
 2 2 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 5
@@ -88,7 +127,6 @@ Single
 4 0 0 50 0 0 12 0.0000 4 180 690 8595 6210 Interpolator\001
 4 0 0 50 0 0 12 0.0000 4 165 270 10350 6165 y(m)\001
 4 0 0 50 0 0 12 0.0000 4 165 240 7425 5895 x(n)\001
-4 0 0 50 0 0 14 0.0000 4 195 1395 8685 5265 System Level Usage\001
 4 0 0 50 0 0 26 0.0000 4 360 4785 4320 9000 Polyphase Resampler High Level View\001
 4 0 0 50 0 0 12 0.0000 4 180 1050 1710 1620 Interpolator Index\001
 4 0 0 50 0 0 12 0.0000 4 135 615 8325 2430 Convolver\001
@@ -100,3 +138,5 @@ Single
 4 0 0 50 0 0 12 0.0000 4 180 1215 9990 2655 L/M Output Samples\001
 4 0 0 50 0 0 12 0.0000 4 150 1110 5040 4050 Modulo M Counter\001
 4 0 0 50 0 0 12 0.0000 4 180 765 10170 6525 L/M Samples\001
+4 0 0 50 0 0 12 0.0000 4 165 270 10080 2250 y(m)\001
+4 0 0 50 0 0 14 0.0000 4 195 1395 8640 5535 System Level Usage\001
