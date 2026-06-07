@@ -65,8 +65,8 @@ Single
 4 0 0 50 0 0 12 0.0000 4 180 1185 765 8100 7. Advance pipeline.\001
 -6
 6 8145 6930 10980 8055
-4 0 0 50 0 0 12 0.0000 4 180 2775 8145 7065 An input sample, x(n) is sent to the Interpolator,\001
-4 0 0 50 0 0 12 0.0000 4 180 2625 8145 7305 and the Interpolator provides output samples.\001
+4 0 0 50 0 0 12 0.0000 4 180 2685 8145 7065 An input sample, x(n) is sent to the Resampler,\001
+4 0 0 50 0 0 12 0.0000 4 180 2535 8145 7305 and the Resampler provides output samples.\001
 4 0 0 50 0 0 12 0.0000 4 180 2625 8145 7785 and the number of samples written is returned\001
 4 0 0 50 0 0 12 0.0000 4 180 2805 8145 7545 These samples are written to the provided buffer,\001
 4 0 0 50 0 0 12 0.0000 4 150 705 8145 8025 to the caller.\001
@@ -124,7 +124,7 @@ Single
 4 0 0 50 0 0 12 0.0000 4 135 825 3915 1665 Coef Pointer 0\001
 4 0 0 50 0 0 12 0.0000 4 135 825 3915 2025 Coef Pointer 1\001
 4 0 0 50 0 0 12 0.0000 4 135 960 3870 2880 Coef Pointer L-1\001
-4 0 0 50 0 0 12 0.0000 4 180 690 8595 6210 Interpolator\001
+4 0 0 50 0 0 12 0.0000 4 180 600 8595 6210 Resampler\001
 4 0 0 50 0 0 12 0.0000 4 165 270 10350 6165 y(m)\001
 4 0 0 50 0 0 12 0.0000 4 165 240 7425 5895 x(n)\001
 4 0 0 50 0 0 26 0.0000 4 360 4785 4320 9000 Polyphase Resampler High Level View\001
