@@ -10,7 +10,7 @@ Single
 5 1 0 1 0 7 50 0 -1 0.000 0 1 1 0 1725.000 2137.500 1485 2070 1755 2385 1755 1890
 	1 1 1.00 60.00 120.00
 6 8550 3285 12465 3915
-4 0 0 50 0 0 12 0.0000 4 180 3915 8550 3420 The output summer  is cleares at the star of each communation cycle.\001
+4 0 0 50 0 0 12 0.0000 4 180 3900 8550 3420 The output summer  is clears at the start of each communation cycle.\001
 4 0 0 50 0 0 12 0.0000 4 180 3585 8550 3660 during the commutation cycle, it accumulates the calue of each\001
 4 0 0 50 0 0 12 0.0000 4 150 1050 8550 3900 selected FIR filter.\001
 -6
@@ -22,7 +22,7 @@ Single
 4 0 0 50 0 0 12 0.0000 4 180 660 495 4815 Algorithm:\001
 4 0 0 50 0 0 12 0.0000 4 165 1410 495 5055 1. A sampe, x(n), arrives.\001
 4 0 0 50 0 0 12 0.0000 4 180 5955 495 5295 2. A pointer to an FIR filter is selected from the Filter Pointer Ring as indexed by theCommutator Index.\001
-4 0 0 50 0 0 12 0.0000 4 180 3705 495 5535 3. The sample, x(n) is sent to the FIR filter via the pointer access.\001
+4 0 0 50 0 0 12 0.0000 4 180 3735 495 5535 3. The sample, x(n), is sent to the FIR filter via the pointer access.\001
 4 0 0 50 0 0 12 0.0000 4 180 5100 495 5775 4.  The FIR filter performs the convolution operation and sends its output to the summer.\001
 4 0 0 50 0 0 12 0.0000 4 180 4170 495 6015 5. The summer adds the output value of the FIR filter to its current value.\001
 4 0 0 50 0 0 12 0.0000 4 195 2745 495 6255 6.The commutator index is decremented by one.\001
@@ -109,8 +109,8 @@ Single
 4 0 0 50 0 0 14 0.0000 4 165 960 6345 765 FIR Subfilters\001
 4 0 0 50 0 0 24 0.0000 4 195 150 9135 2295 +\001
 4 0 0 50 0 0 26 0.0000 4 360 4770 4320 9000 Polyphase Decimator High Level View\001
-4 0 0 50 0 0 12 0.0000 4 165 810 11115 6480 Outpu Buffert\001
+4 0 0 50 0 0 12 0.0000 4 165 765 11115 6480 Outpu Buffer\001
 4 0 0 50 0 0 12 0.0000 4 180 2580 7470 7290 Input samples, x(n), are repeatedly sent to thr\001
 4 0 0 50 0 0 12 0.0000 4 150 2460 7470 7530 Decimator until a status of true is returned.\001
 4 0 0 50 0 0 12 0.0000 4 180 3285 7470 7770 At that point, the caller stores the returned output sample\001
-4 0 0 50 0 0 12 0.0000 4 180 2895 7470 8010 into its memory buffer (one full decimation cycle).\001
+4 0 0 50 0 0 12 0.0000 4 180 3135 7470 8010 into its memory buffer (one full decdeciimation cycle).\001
