@@ -18,6 +18,11 @@ the resampler, and the second tests the decimator.
 The rapid prototype directory contains a program to validate the commutator
 function that is used for a polyphase resampler.
 
+The design directory has a Scilab script for designing the prototype FIR
+filter used by the example programs as well as Xfig files that represent
+the design of the polyphase decimator and polyphase resampler. I have also
+provided .png files so that the designs can be easily displayed.
+
 To build the test application, type 'sh buildResampler.sh'.
 
 To build the interpolator commutator application, navigate to the
