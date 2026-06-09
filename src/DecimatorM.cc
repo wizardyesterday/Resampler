@@ -124,7 +124,7 @@ void DecimatorM::resetFilterState(void)
   } // for
 
   // Start out with the first commutator position.
-  decimatorCommutatorIndex = 0;
+  decimatorCommutatorIndex = decimationFactor - 1;
 
   // Clear the output accumulator.
   outputSummer = 0;
@@ -280,8 +280,10 @@ bool DecimatorM::decimate(float inputSample,float *outputPtr)
   outputSummer += 
     subfilterPtr[decimatorCommutatorIndex]->filterData(inputSample);
 
-  // Remember that we start at index 0, so position 1 completes the cycle.
-  if (decimatorCommutatorIndex == 1)
+  // Reference the next polyphase branch.
+  decimatorCommutatorIndex--;
+
+  if (decimatorCommutatorIndex < 0)
   {
     // We now have the decimated result.
     *outputPtr = outputSummer;
@@ -289,13 +291,12 @@ bool DecimatorM::decimate(float inputSample,float *outputPtr)
     // Clear for the next commutation cycle.
     outputSummer = 0;
 
+    // Reset the commutator.
+    decimatorCommutatorIndex = decimationFactor - 1;
+
     // Indicate that a decimated value is available.
     dataAvailable = true;
   } // if
-
-  // Reference the next polyphase branch. Decrement by 1 modulo M.
-  decimatorCommutatorIndex = (decimatorCommutatorIndex
-                           +  decimationFactor - 1) % decimationFactor;
 
   return (dataAvailable);
 

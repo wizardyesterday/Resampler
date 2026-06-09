@@ -16,7 +16,7 @@ Single
 -6
 6 765 3150 3285 3465
 4 0 0 50 0 0 10 0.0000 4 150 2505 765 3285 The commutator index decrements by 1 modulo M.\001
-4 0 0 50 0 0 10 0.0000 4 135 975 765 3420 It is initially set to 0.\001
+4 0 0 50 0 0 10 0.0000 4 135 975 765 3420 It is initially set to M-1.\001
 -6
 6 495 4680 5625 7515
 4 0 0 50 0 0 12 0.0000 4 180 660 495 4815 Algorithm:\001
@@ -27,7 +27,7 @@ Single
 4 0 0 50 0 0 10 0.0000 4 150 3570 495 6015 5. The summer adds the output value of the FIR filter to its current value.\001
 4 0 0 50 0 0 10 0.0000 4 150 2895 495 6255 6.The commutator index is decremented by one modulo M.\001
 4 0 0 50 0 0 10 0.0000 4 150 5130 495 6495 7, Steps 1 through 6 are repeated as each new sample, x(n) arrives until commutator index is equal to -1.\001
-4 0 0 50 0 0 10 0.0000 4 150 1695 495 6735 8. IF comutator index is equal to 1.\001
+4 0 0 50 0 0 10 0.0000 4 150 1695 495 6735 8. IF comutator index is equal to 0.\001
 4 0 0 50 0 0 10 0.0000 4 150 3210 495 6975 8.1 Summer contents are written to storage supplied by the caller.\001
 4 0 0 50 0 0 10 0.0000 4 150 2925 495 7215 8.2 The summer is cleared for the next commutation cycle..\001
 4 0 0 50 0 0 10 0.0000 4 150 2565 495 7455 9. The cycle repeats for the next M samples of x(n).\001
