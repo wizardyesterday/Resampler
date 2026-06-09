@@ -396,9 +396,20 @@ uint32_t Resampler::resample(float inputSample,float *outputBufferPtr)
       outputSampleCount++;
     } // if
 
-    // Increment modulo M, where M is the decimation factor.
-    decimationCounter =
-      (decimationCounter + 1) % decimationFactor;
+    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+    // This block of code performs an efficient modulo
+    // M increment, where M is the decimation factor.
+    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+    // Reference the next subfilter.
+    decimationCounter++;
+
+    // Force the increment to be modulo M.
+    if (decimationCounter == decimationFactor)
+    {
+      // Wrap around.
+      decimationCounter = 0;
+    } // if
+    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
   } // for
 
