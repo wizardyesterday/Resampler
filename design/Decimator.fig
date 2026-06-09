@@ -9,29 +9,28 @@ Single
 1200 2
 5 1 0 1 0 7 50 0 -1 0.000 0 1 1 0 1725.000 2137.500 1485 2070 1755 2385 1755 1890
 	1 1 1.00 60.00 120.00
-6 8550 3285 12465 3915
-4 0 0 50 0 0 10 0.0000 4 180 3900 8550 3420 The output summer  is clears at the start of each communation cycle.\001
-4 0 0 50 0 0 10 0.0000 4 180 3585 8550 3660 during the commutation cycle, it accumulates the calue of each\001
-4 0 0 50 0 0 10 0.0000 4 150 1050 8550 3900 selected FIR filter.\001
+6 8550 3285 11925 3915
+4 0 0 50 0 0 10 0.0000 4 150 3375 8550 3420 The output summer  is clears at the start of each communation cycle.\001
+4 0 0 50 0 0 10 0.0000 4 150 3105 8550 3660 during the commutation cycle, it accumulates the calue of each\001
+4 0 0 50 0 0 10 0.0000 4 135 915 8550 3900 selected FIR filter.\001
 -6
-6 765 3150 3690 3465
-4 0 0 50 0 0 10 0.0000 4 180 2925 765 3285 The commutator index decrements by 1 modulo M.\001
-4 0 0 50 0 0 10 0.0000 4 180 2835 765 3420 It is initially set to M-1,as shown on the diagram.\001
+6 765 3150 3285 3465
+4 0 0 50 0 0 10 0.0000 4 150 2505 765 3285 The commutator index decrements by 1 modulo M.\001
+4 0 0 50 0 0 10 0.0000 4 135 975 765 3420 It is initially set to 0.\001
 -6
-6 495 4680 6480 7740
+6 495 4680 5625 7515
 4 0 0 50 0 0 12 0.0000 4 180 660 495 4815 Algorithm:\001
-4 0 0 50 0 0 10 0.0000 4 165 1410 495 5055 1. A sampe, x(n), arrives.\001
-4 0 0 50 0 0 10 0.0000 4 180 5955 495 5295 2. A pointer to an FIR filter is selected from the Filter Pointer Ring as indexed by theCommutator Index.\001
-4 0 0 50 0 0 10 0.0000 4 180 3735 495 5535 3. The sample, x(n), is sent to the FIR filter via the pointer access.\001
-4 0 0 50 0 0 10 0.0000 4 180 5100 495 5775 4.  The FIR filter performs the convolution operation and sends its output to the summer.\001
-4 0 0 50 0 0 10 0.0000 4 180 4170 495 6015 5. The summer adds the output value of the FIR filter to its current value.\001
-4 0 0 50 0 0 10 0.0000 4 195 2745 495 6255 6.The commutator index is decremented by one.\001
-4 0 0 50 0 0 10 0.0000 4 195 5925 495 6495 7, Steps 1 through 6 are repeated as each new sample, x(n) arrives until commutator index is equal to -1.\001
-4 0 0 50 0 0 10 0.0000 4 180 2040 495 6735 8. IF comutator index is equal to -1.\001
-4 0 0 50 0 0 10 0.0000 4 165 3105 495 6975 8.1 Comutator index is set back to M-1 (wrap around).\001
-4 0 0 50 0 0 10 0.0000 4 180 3750 495 7215 8.2 Summer contents are written to storage supplied by the caller.\001
-4 0 0 50 0 0 10 0.0000 4 180 3255 495 7455 8.3 The summer is cleared for the next commutator cycle.\001
-4 0 0 50 0 0 10 0.0000 4 180 2910 495 7695 9. The cycle repeats for the next M samples of x(n).\001
+4 0 0 50 0 0 10 0.0000 4 135 1260 495 5055 1. A sampe, x(n), arrives.\001
+4 0 0 50 0 0 10 0.0000 4 150 5070 495 5295 2. A pointer to an FIR filter is selected from the Filter Pointer Ring as indexed by theCommutator Index.\001
+4 0 0 50 0 0 10 0.0000 4 150 3225 495 5535 3. The sample, x(n), is sent to the FIR filter via the pointer access.\001
+4 0 0 50 0 0 10 0.0000 4 150 4305 495 5775 4.  The FIR filter performs the convolution operation and sends its output to the summer.\001
+4 0 0 50 0 0 10 0.0000 4 150 3570 495 6015 5. The summer adds the output value of the FIR filter to its current value.\001
+4 0 0 50 0 0 10 0.0000 4 150 2895 495 6255 6.The commutator index is decremented by one modulo M.\001
+4 0 0 50 0 0 10 0.0000 4 150 5130 495 6495 7, Steps 1 through 6 are repeated as each new sample, x(n) arrives until commutator index is equal to -1.\001
+4 0 0 50 0 0 10 0.0000 4 150 1695 495 6735 8. IF comutator index is equal to 1.\001
+4 0 0 50 0 0 10 0.0000 4 150 3210 495 6975 8.1 Summer contents are written to storage supplied by the caller.\001
+4 0 0 50 0 0 10 0.0000 4 150 2925 495 7215 8.2 The summer is cleared for the next commutation cycle..\001
+4 0 0 50 0 0 10 0.0000 4 150 2565 495 7455 9. The cycle repeats for the next M samples of x(n).\001
 -6
 1 3 0 1 0 7 50 0 -1 0.000 1 0.0000 9180 2205 407 407 9180 2205 9585 2250
 2 2 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 5
@@ -91,26 +90,26 @@ Single
 2 1 0 1 0 7 50 0 -1 0.000 0 0 -1 0 1 2
 	1 1 1.00 60.00 120.00
 	 7380 6480 8100 6480
-4 0 0 50 0 0 10 0.0000 4 150 870 3915 1665 Filter Pointer 0\001
-4 0 0 50 0 0 10 0.0000 4 150 870 3915 2025 Filter Pointer 1\001
-4 0 0 50 0 0 9 0.0000 4 150 1035 3870 2880 Filter Pointer M-1\001
-4 0 0 50 0 0 10 0.0000 4 150 660 6480 1125 FIR Filter 0\001
-4 0 0 50 0 0 10 0.0000 4 150 825 6435 3015 FIR Filter M-1\001
-4 0 0 50 0 0 10 0.0000 4 150 690 6525 2115 FIR  Filter 1\001
-4 0 0 50 0 0 10 0.0000 4 135 1080 1800 2745 Commutator Index\001
-4 0 0 50 0 0 12 0.0000 4 195 1275 3690 1215 Filter Pointer Ring\001
-4 0 0 50 0 0 10 0.0000 4 180 1845 10350 2070 Decimated Output Sample, y(m)\001
-4 0 0 50 0 0 10 0.0000 4 180 1065 4410 3915 Input Sample, x(n)\001
-4 0 0 50 0 0 10 0.0000 4 105 345 7380 6705 status\001
-4 0 0 50 0 0 10 0.0000 4 120 600 8595 6210 Decimator\001
-4 0 0 50 0 0 10 0.0000 4 165 270 10350 6165 y(m)\001
-4 0 0 50 0 0 10 0.0000 4 165 240 7425 5895 x(n)\001
-4 0 0 50 0 0 12 0.0000 4 195 1395 8685 5265 System Level Usage\001
-4 0 0 50 0 0 12 0.0000 4 165 960 6345 765 FIR Subfilters\001
+4 0 0 50 0 0 10 0.0000 4 120 720 3915 1665 Filter Pointer 0\001
+4 0 0 50 0 0 10 0.0000 4 120 720 3915 2025 Filter Pointer 1\001
+4 0 0 50 0 0 9 0.0000 4 120 780 3870 2880 Filter Pointer M-1\001
+4 0 0 50 0 0 10 0.0000 4 120 555 6480 1125 FIR Filter 0\001
+4 0 0 50 0 0 10 0.0000 4 120 705 6435 3015 FIR Filter M-1\001
+4 0 0 50 0 0 10 0.0000 4 120 585 6525 2115 FIR  Filter 1\001
+4 0 0 50 0 0 10 0.0000 4 135 915 1800 2745 Commutator Index\001
+4 0 0 50 0 0 12 0.0000 4 180 1080 3690 1215 Filter Pointer Ring\001
+4 0 0 50 0 0 10 0.0000 4 150 1590 10350 2070 Decimated Output Sample, y(m)\001
+4 0 0 50 0 0 10 0.0000 4 135 915 4410 3915 Input Sample, x(n)\001
+4 0 0 50 0 0 10 0.0000 4 105 270 7380 6705 status\001
+4 0 0 50 0 0 10 0.0000 4 105 525 8595 6210 Decimator\001
+4 0 0 50 0 0 10 0.0000 4 135 240 10350 6165 y(m)\001
+4 0 0 50 0 0 10 0.0000 4 135 210 7425 5895 x(n)\001
+4 0 0 50 0 0 12 0.0000 4 180 1170 8685 5265 System Level Usage\001
+4 0 0 50 0 0 12 0.0000 4 150 810 6345 765 FIR Subfilters\001
 4 0 0 50 0 0 24 0.0000 4 195 150 9135 2295 +\001
 4 0 0 50 0 0 26 0.0000 4 360 4770 4320 9000 Polyphase Decimator High Level View\001
-4 0 0 50 0 0 10 0.0000 4 165 765 11115 6480 Outpu Buffer\001
-4 0 0 50 0 0 10 0.0000 4 180 2580 7470 7290 Input samples, x(n), are repeatedly sent to thr\001
-4 0 0 50 0 0 10 0.0000 4 150 2460 7470 7530 Decimator until a status of true is returned.\001
-4 0 0 50 0 0 10 0.0000 4 180 3285 7470 7770 At that point, the caller stores the returned output sample\001
-4 0 0 50 0 0 10 0.0000 4 180 3135 7470 8010 into its memory buffer (one full decdeciimation cycle).\001
+4 0 0 50 0 0 10 0.0000 4 135 660 11115 6480 Outpu Buffer\001
+4 0 0 50 0 0 10 0.0000 4 150 2235 7470 7290 Input samples, x(n), are repeatedly sent to thr\001
+4 0 0 50 0 0 10 0.0000 4 135 2100 7470 7530 Decimator until a status of true is returned.\001
+4 0 0 50 0 0 10 0.0000 4 150 2775 7470 7770 At that point, the caller stores the returned output sample\001
+4 0 0 50 0 0 10 0.0000 4 150 2700 7470 8010 into its memory buffer (one full decdeciimation cycle).\001

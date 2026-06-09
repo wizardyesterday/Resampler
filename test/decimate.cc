@@ -179,7 +179,7 @@ int main(int argc,char **argv)
   bool done;
   DecimatorM *myDecimatorPtr;
 
-  // Instantiate a resampler with ratio L/M = 5/2).
+  // Instantiate a Decimator with decimation of 5.
   myDecimatorPtr = new DecimatorM(sizeof(coef)/sizeof(float),coef,5);
 
   // Set up for loop entry.
