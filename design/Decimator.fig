@@ -18,18 +18,6 @@ Single
 4 0 0 50 0 0 10 0.0000 4 150 2505 765 3285 The commutator index decrements by 1 modulo M.\001
 4 0 0 50 0 0 10 0.0000 4 135 1125 765 3420 It is initially set to M-1.\001
 -6
-6 495 4680 5580 7020
-4 0 0 50 0 0 12 0.0000 4 180 660 495 4815 Algorithm:\001
-4 0 0 50 0 0 10 0.0000 4 135 1260 495 5055 1. A sampe, x(n), arrives.\001
-4 0 0 50 0 0 10 0.0000 4 150 5070 495 5295 2. A pointer to an FIR filter is selected from the Filter Pointer Ring as indexed by theCommutator Index.\001
-4 0 0 50 0 0 10 0.0000 4 150 3225 495 5535 3. The sample, x(n), is sent to the FIR filter via the pointer access.\001
-4 0 0 50 0 0 10 0.0000 4 150 4305 495 5775 4.  The FIR filter performs the convolution operation and sends its output to the summer.\001
-4 0 0 50 0 0 10 0.0000 4 150 3570 495 6015 5. The summer adds the output value of the FIR filter to its current value.\001
-4 0 0 50 0 0 10 0.0000 4 150 2370 495 6255 6.The commutator index is decremented by one.\001
-4 0 0 50 0 0 10 0.0000 4 150 1740 495 6495 7. IF comutator index is equal to -1.\001
-4 0 0 50 0 0 10 0.0000 4 150 3210 495 6735 7.1 Summer contents are written to storage supplied by the caller.\001
-4 0 0 50 0 0 10 0.0000 4 150 2895 495 6975 7.2 The summer is cleared for the next commutation cycle.\001
--6
 1 3 0 1 0 7 50 0 -1 0.000 1 0.0000 9180 2205 407 407 9180 2205 9585 2250
 2 2 0 1 0 7 50 0 -1 0.000 0 0 -1 0 0 5
 	 3690 1440 4950 1440 4950 1800 3690 1800 3690 1440
@@ -106,8 +94,19 @@ Single
 4 0 0 50 0 0 12 0.0000 4 150 810 6345 765 FIR Subfilters\001
 4 0 0 50 0 0 24 0.0000 4 195 150 9135 2295 +\001
 4 0 0 50 0 0 26 0.0000 4 360 4770 4320 9000 Polyphase Decimator High Level View\001
-4 0 0 50 0 0 10 0.0000 4 135 660 11115 6480 Outpu Buffer\001
+4 0 0 50 0 0 10 0.0000 4 135 690 11115 6480 Output Buffer\001
 4 0 0 50 0 0 10 0.0000 4 150 2235 7470 7290 Input samples, x(n), are repeatedly sent to thr\001
 4 0 0 50 0 0 10 0.0000 4 135 2100 7470 7530 Decimator until a status of true is returned.\001
 4 0 0 50 0 0 10 0.0000 4 150 2775 7470 7770 At that point, the caller stores the returned output sample\001
 4 0 0 50 0 0 10 0.0000 4 150 2700 7470 8010 into its memory buffer (one full decdeciimation cycle).\001
+4 0 0 50 0 0 12 0.0000 4 180 660 495 4815 Algorithm:\001
+4 0 0 50 0 0 10 0.0000 4 150 5070 495 5295 2. A pointer to an FIR filter is selected from the Filter Pointer Ring as indexed by theCommutator Index.\001
+4 0 0 50 0 0 10 0.0000 4 150 3225 495 5535 3. The sample, x(n), is sent to the FIR filter via the pointer access.\001
+4 0 0 50 0 0 10 0.0000 4 150 4305 495 5775 4.  The FIR filter performs the convolution operation and sends its output to the summer.\001
+4 0 0 50 0 0 10 0.0000 4 150 3570 495 6015 5. The summer adds the output value of the FIR filter to its current value.\001
+4 0 0 50 0 0 10 0.0000 4 150 2370 495 6255 6.The commutator index is decremented by one.\001
+4 0 0 50 0 0 10 0.0000 4 150 1740 495 6495 7. IF comutator index is equal to -1.\001
+4 0 0 50 0 0 10 0.0000 4 150 3210 495 6735 7.1 Summer contents are written to storage supplied by the caller.\001
+4 0 0 50 0 0 10 0.0000 4 150 2895 495 6975 7.2 The summer is cleared for the next commutation cycle.\001
+4 0 0 50 0 0 10 0.0000 4 135 1950 495 7215 7.3 The commutator index is set to M-1.\001
+4 0 0 50 0 0 10 0.0000 4 135 1290 495 5055 1. A sample, x(n), arrives.\001
