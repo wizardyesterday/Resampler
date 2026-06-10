@@ -23,7 +23,7 @@
 #include <unistd.h>
 #include <math.h>
 
-#include "Resampler.h"
+#include "ResamplerPoly.h"
 
 // Globals.
 int16_t inputBuffer[32768];
@@ -324,7 +324,7 @@ int main(int argc,char **argv)
   uint32_t sampleCount;
   int outputBufferIndex;
   bool done;
-  Resampler *myResamplerPtr;
+  ResamplerPoly *myResamplerPtr;
 
   // If any command line argument is provided, decimate.
   if (argc > 1)
@@ -332,20 +332,20 @@ int main(int argc,char **argv)
     fprintf(stderr,"L/M: 2/5\n");
 
     // Instantiate a resampler with ratio L/M = 2/5).
-    myResamplerPtr = new Resampler(sizeof(coef_D)/sizeof(float),
-                                   coef_D,
-                                   2,
-                                   5);
+    myResamplerPtr = new ResamplerPoly(sizeof(coef_D)/sizeof(float),
+                                       coef_D,
+                                       2,
+                                       5);
   } // if
   else
   {
     fprintf(stderr,"L/M: 5/2\n");
 
     // Instantiate a resampler with ratio L/M = 5/2).
-  myResamplerPtr = new Resampler(sizeof(coef_I)/sizeof(float),
-                                   coef_I,
-                                   5,
-                                   2);
+    myResamplerPtr = new ResamplerPoly(sizeof(coef_I)/sizeof(float),
+                                       coef_I,
+                                       5,
+                                       2);
   } // else
   // Set up for loop entry.
   done = false;

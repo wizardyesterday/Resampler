@@ -1,20 +1,20 @@
 //************************************************************************
-// file name: DecimatorM.cc
+// file name: DecimatorPoly.cc
 //************************************************************************
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "DecimatorM.h"
+#include "DecimatorPoly.h"
 
 using namespace std;
 
 /*****************************************************************************
 
-  Name: DecimatorM
+  Name: DecimatorPoly
 
   Purpose: The purpose of this function is to serve as the constructor for
-  an instance of a DecimatorM.  One thing should be mentioned.  The
+  an instance of a DecimatorPoly.  One thing should be mentioned.  The
   filter size needs to be an integer multiple of the decimation factor
   so that the polyphase M polyphase filters have the same number of taps.
   The advantage of using polyphase filters is that, rather than discarding 
@@ -23,9 +23,9 @@ using namespace std;
   sample rate. After decimation the samples are decimated by the
   decimation factor.
 
-  Calling Sequence: DecimatorM(filterLength,
-                               coefficientsPtr,
-                               decimationFaxtor)
+  Calling Sequence: DecimatorPoly(filterLength,
+                                  coefficientsPtr,
+                                  decimationFaxtor)
 
   Inputs:
 
@@ -40,9 +40,9 @@ using namespace std;
     None.
 
 *****************************************************************************/
-DecimatorM::DecimatorM(int filterLength,
-                           float *coefficientsPtr,
-                           int decimationFactor)
+DecimatorPoly::DecimatorPoly(int filterLength,
+                             float *coefficientsPtr,
+                             int decimationFactor)
 {
   int i;
 
@@ -58,16 +58,16 @@ DecimatorM::DecimatorM(int filterLength,
 
   return;
 
-} // DecimatorM
+} // DecimatorPoly
 
 /*****************************************************************************
 
-  Name: ~DecimatorM
+  Name: ~DecimatorPoly
 
   Purpose: The purpose of this function is to serve as the destructor for
-  an instance of an DecimatorM.
+  an instance of an DecimatorPoly.
 
-  Calling Sequence: ~DecimatorM()
+  Calling Sequence: ~DecimatorPoly()
 
   Inputs:
 
@@ -78,7 +78,7 @@ DecimatorM::DecimatorM(int filterLength,
     None.
 
 *****************************************************************************/
-DecimatorM::~DecimatorM(void)
+DecimatorPoly::~DecimatorPoly(void)
 {
   int i;
 
@@ -93,7 +93,7 @@ DecimatorM::~DecimatorM(void)
 
   return;
 
-} // ~DecimatorM
+} // ~DecimatorPoly
 
 /*****************************************************************************
 
@@ -113,7 +113,7 @@ DecimatorM::~DecimatorM(void)
     None.
 
 *****************************************************************************/
-void DecimatorM::resetFilterState(void)
+void DecimatorPoly::resetFilterState(void)
 {
   int i;
 
@@ -180,9 +180,9 @@ void DecimatorM::resetFilterState(void)
     None.
 
 *****************************************************************************/
-void DecimatorM::createPolyphaseSubfilters(int filterLength,
-                                          float *coefficientsPtr,
-                                          int decimationFactor)
+void DecimatorPoly::createPolyphaseSubfilters(int filterLength,
+                                              float *coefficientsPtr,
+                                              int decimationFactor)
 {
   int i, j;
   int lookupIndex;
@@ -253,7 +253,7 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
   returned by this function to indicate to the caller that data is available.
 
   Calling Sequence:  outputSampleCount = decimate(inputSample,
-                                                     outputBufferPtr)
+                                                  outputBufferPtr)
 
   Inputs:
 
@@ -269,7 +269,7 @@ void DecimatorM::createPolyphaseSubfilters(int filterLength,
     and a value of false indicates that it is not.
 
 *****************************************************************************/
-bool DecimatorM::decimate(float inputSample,float *outputPtr)
+bool DecimatorPoly::decimate(float inputSample,float *outputPtr)
 {
   bool dataAvailable;
 

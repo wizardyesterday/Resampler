@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <math.h>
 
-#include "DecimatorM.h"
+#include "DecimatorPoly.h"
 
 // Globals.
 int16_t inputBuffer[32768];
@@ -177,10 +177,10 @@ int main(int argc,char **argv)
   bool dataAvailable;
   float outputSample;
   bool done;
-  DecimatorM *myDecimatorPtr;
+  DecimatorPoly *myDecimatorPtr;
 
   // Instantiate a Decimator with decimation of 5.
-  myDecimatorPtr = new DecimatorM(sizeof(coef)/sizeof(float),coef,5);
+  myDecimatorPtr = new DecimatorPoly(sizeof(coef)/sizeof(float),coef,5);
 
   // Set up for loop entry.
   done = false;

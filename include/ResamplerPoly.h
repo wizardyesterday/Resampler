@@ -1,5 +1,5 @@
 //**************************************************************************
-// file name: Resampler.h
+// file name: ResamplerPoly.h
 //**************************************************************************
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // This class implements a signal processing block known as a resampler,
@@ -29,23 +29,23 @@
 // polyphase filter.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-#ifndef __RESAMPLER__
-#define __RESAMPLER__
+#ifndef __RESAMPLERPOLY__
+#define __RESAMPLERPOLY__
 
 #include <stdint.h>
 
-class Resampler
+class ResamplerPoly
 {
   //***************************** operations **************************
 
   public:
 
-  Resampler(int filterLength,
+  ResamplerPoly(int filterLength,
             float *coefficientsPtr,
             int interpolationFactor,
             int decimationFactor);
 
-  ~Resampler(void);
+  ~ResamplerPoly(void);
 
   void resetFilterState(void);
 
@@ -85,4 +85,4 @@ class Resampler
   int decimationCounter;
 };
 
-#endif // __RESAMPLER__
+#endif // __RESAMPLERPOLY__

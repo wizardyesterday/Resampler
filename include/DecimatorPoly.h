@@ -1,10 +1,9 @@
 //**************************************************************************
-// file name: DecimatorM.h
+// file name: DecimatorPoly.h
 //**************************************************************************
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // This class implements a signal processing block known as a
-// polyphase decimatorpolyphase decimator.
-
+// polyphase decimator decimator.
 // A decimator consists of an antialiasing filter followd by a sampling
 // rate compressor.  In its most naive implementation, the input signal
 // is presented to the filter, and samples are discarded as dictated by
@@ -30,23 +29,23 @@
 // of the coefficients for each polyphase subfilter.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-#ifndef __DECIMATORM__
-#define __DECIMATORM__
+#ifndef __DECIMATORPOLY__
+#define __DECIMATORPOLY__
 
 #include <stdint.h>
 #include "FirFilter.h"
 
-class DecimatorM
+class DecimatorPoly
 {
   //***************************** operations **************************
 
   public:
 
-  DecimatorM(int filterLength,
+  DecimatorPoly(int filterLength,
                float *coefficientsPtr,
                int decimationFactor);
 
-  ~DecimatorM(void);
+  ~DecimatorPoly(void);
 
   void resetFilterState(void);
 
@@ -76,4 +75,4 @@ class DecimatorM
   FirFilter **subfilterPtr;
 };
 
-#endif // __DECIMATORM__
+#endif // __DECIMATORPOLY__

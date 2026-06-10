@@ -1,22 +1,22 @@
 //************************************************************************
-// file name: Resampler.cc
+// file name: ResamplerPoly.cc
 //************************************************************************
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "Resampler.h"
+#include "ResamplerPoly.h"
 
 using namespace std;
 
 /*****************************************************************************
 
-  Name: Resampler
+  Name: ResamplerPoly
 
   Purpose: The purpose of this function is to serve as the constructor for
-  an instance of an Resampler.  One thing should be mentioned.  The
+  an instance of a ResamplerPoly.  One thing should be mentioned.  The
   filter size needs to be an integer multiple of the interpolation factor
-  so that the polyphase L polyphase filters have the same number of taps.
+  so that the L polyphase filters have the same number of taps.
   The advantage of using polyphase filters is that, rather than stuffing
   zeros in the pipeline and filtering at interpolated sample rate, due to
   the commutation method, filtering occurs at the pre-interpolation (lower)
@@ -25,7 +25,7 @@ using namespace std;
   the interpolation factor and M is the decimation factor.
   If L < M, decimation will occur.
 
-  Calling Sequence: Resampler(filterLength,
+  Calling Sequence: ResamplerPoly(filterLength,
                                  coefficientsPtr,
                                  interpolationFactor,
                                  decimationFaxtor)
@@ -45,10 +45,10 @@ using namespace std;
     None.
 
 *****************************************************************************/
-Resampler::Resampler(int filterLength,
-                           float *coefficientsPtr,
-                           int interpolationFactor,
-                           int decimationFactor)
+ResamplerPoly::ResamplerPoly(int filterLength,
+                             float *coefficientsPtr,
+                             int interpolationFactor,
+                             int decimationFactor)
 {
   int i;
 
@@ -72,16 +72,16 @@ Resampler::Resampler(int filterLength,
 
   return;
 
-} // Resampler
+} // ResamplerPoly
 
 /*****************************************************************************
 
-  Name: ~Resampler
+  Name: ~ResamplerPoly
 
   Purpose: The purpose of this function is to serve as the destructor for
-  an instance of an Resampler.
+  an instance of an ResamplerPoly.
 
-  Calling Sequence: ~Resampler()
+  Calling Sequence: ~ResamplerPoly()
 
   Inputs:
 
@@ -92,7 +92,7 @@ Resampler::Resampler(int filterLength,
     None.
 
 *****************************************************************************/
-Resampler::~Resampler(void)
+ResamplerPoly::~ResamplerPoly(void)
 {
   int i;
 
@@ -110,7 +110,7 @@ Resampler::~Resampler(void)
 
   return;
 
-} // ~Resampler
+} // ~ResamplerPoly
 
 /*****************************************************************************
 
@@ -132,7 +132,7 @@ Resampler::~Resampler(void)
     None.
 
 *****************************************************************************/
-void Resampler::resetFilterState(void)
+void ResamplerPoly::resetFilterState(void)
 {
   int i;
 
@@ -171,7 +171,7 @@ void Resampler::resetFilterState(void)
     y - The output value of the filter.
 
 *****************************************************************************/
-float Resampler::filterData(float *coefficientsPtr)
+float ResamplerPoly::filterData(float *coefficientsPtr)
 {
   float *h, y;
   int k, xIndex;
@@ -257,7 +257,7 @@ float Resampler::filterData(float *coefficientsPtr)
     None.
 
 *****************************************************************************/
-void Resampler::createPolyphaseCoefficients(int filterLength,
+void ResamplerPoly::createPolyphaseCoefficients(int filterLength,
                                                float *coefficientsPtr,
                                                int interpolationFactor)
 {
@@ -322,7 +322,7 @@ void Resampler::createPolyphaseCoefficients(int filterLength,
     None.
 
 *****************************************************************************/
-void Resampler::advancePipeline(void)
+void ResamplerPoly::advancePipeline(void)
 {
 
   // Increment the index in a modulo fashion.
@@ -371,7 +371,7 @@ void Resampler::advancePipeline(void)
     outputSampleCount - The number of samples that were retained.
 
 *****************************************************************************/
-uint32_t Resampler::resample(float inputSample,float *outputBufferPtr)
+uint32_t ResamplerPoly::resample(float inputSample,float *outputBufferPtr)
 {
   int i;
   uint32_t outputSampleCount;
