@@ -10,7 +10,7 @@ it will be set to one in order to prevent division by zero.
 The source and included directories contain the implementation and definitions
 of the resampler code.
 
-The test directory contains two example applications: one that increases the
+The test directory contains three  example applications: one that increases the
 sample rate of a 16-bit PCM data from 16000S/s to 40000S/s and another that
 decreases the sample rate from 40000D/s to 8000S/s. The first program tests
 the resampler, and the second tests the decimator.
@@ -23,7 +23,7 @@ filter used by the example programs as well as Xfig files that represent
 the design of the polyphase decimator and polyphase resampler. I have also
 provided .png files so that the designs can be easily displayed.
 
-To build the test application, type 'sh buildResampler.sh'.
+To build the resampler application, type 'sh buildResamplerApp.sh'.
 
 To build the interpolator commutator application, navigate to the
 rapidPrototype directory, and type 'g++ -o commutator commutator.cc.
@@ -33,7 +33,14 @@ This decimator is implemwnted as a polyphase decimator with its associated
 input commutator function. The sample rate is reduced by a factor of M,
 and if M is equal to one, no decimation will be performed.
 
-To build the decimator application, type 'sh buildDecimator'.
+To build the decimator application, type 'sh buildDecimatorApp'.
+
+An interpolator increases a sequence at one sample rate to a higher sample
+rate. This interpolator is implemented as a polyphase interpolator with
+its associated output commutator. The sample rate is increased by a factor
+of L, and if L is equal ro one, no interpolation is performed.
+
+To build the interpolator application, type 'sh buildInterpoatorApp'.
 
 The Resampler object and the DecimatortorM object are not the most
 optimal code, But for learning purposes, I believe that there should be a
