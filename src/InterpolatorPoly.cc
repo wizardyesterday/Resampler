@@ -1,34 +1,31 @@
 //************************************************************************
-// file name: ResamplerPoly.cc
+// file name: InterpolatorPoly.cc
 //************************************************************************
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "ResamplerPoly.h"
+#include "InterpolatorPoly.h"
 
 using namespace std;
 
 /*****************************************************************************
 
-  Name: ResamplerPoly
+  Name: InterpolatorPoly
 
   Purpose: The purpose of this function is to serve as the constructor for
-  an instance of a ResamplerPoly.  One thing should be mentioned.  The
+  an instance of an InterpolatorPoly.  One thing should be mentioned.  The
   filter size needs to be an integer multiple of the interpolation factor
   so that the L polyphase filters have the same number of taps.
   The advantage of using polyphase filters is that, rather than stuffing
   zeros in the pipeline and filtering at interpolated sample rate, due to
   the commutation method, filtering occurs at the pre-interpolation (lower)
-  sample rate. After interpolation the samples are decimated by the
-  decimation factor. The result is an interpolation by L/M, where L is
-  the interpolation factor and M is the decimation factor.
-  If L < M, decimation will occur.
+  sample rate. The result is an interpolation by L, where L is the
+  interpolation factor.
 
-  Calling Sequence: ResamplerPoly(filterLength,
-                                 coefficientsPtr,
-                                 interpolationFactor,
-                                 decimationFaxtor)
+  Calling Sequence: InterpolatorPoly(filterLength,
+                                     coefficientsPtr,
+                                     interpolationFactor)
 
   Inputs:
 
@@ -38,29 +35,19 @@ using namespace std;
 
     interpolationFactor - The interpolation factor of the interpolator.
 
-    decimationFactor - The decimation factor of the decimator.
-
   Outputs:
 
     None.
 
 *****************************************************************************/
-ResamplerPoly::ResamplerPoly(int filterLength,
+InterpolatorPoly::InterpolatorPoly(int filterLength,
                              float *coefficientsPtr,
-                             int interpolationFactor,
-                             int decimationFactor)
+                             int interpolationFactor)
 {
   int i;
 
-  if (decimationFactor == 0)
-  {
-    // Se, we'll just interpolate.
-    decimationFactor = 1;
-  } // if
-
   // Save for later use.
   this->interpolationFactor = interpolationFactor;
-  this->decimationFactor = decimationFactor;
 
   // Let's make that polyphase filter.
   createPolyphaseCoefficients(filterLength,
@@ -72,16 +59,16 @@ ResamplerPoly::ResamplerPoly(int filterLength,
 
   return;
 
-} // ResamplerPoly
+} // InterpolatorPoly
 
 /*****************************************************************************
 
-  Name: ~ResamplerPoly
+  Name: ~InterpolatorPoly
 
   Purpose: The purpose of this function is to serve as the destructor for
-  an instance of an ResamplerPoly.
+  an instance of an InterpolatorPoly.
 
-  Calling Sequence: ~ResamplerPoly()
+  Calling Sequence: ~InterpolatorPoly()
 
   Inputs:
 
@@ -92,7 +79,7 @@ ResamplerPoly::ResamplerPoly(int filterLength,
     None.
 
 *****************************************************************************/
-ResamplerPoly::~ResamplerPoly(void)
+InterpolatorPoly::~InterpolatorPoly(void)
 {
   int i;
 
@@ -110,7 +97,7 @@ ResamplerPoly::~ResamplerPoly(void)
 
   return;
 
-} // ~ResamplerPoly
+} // ~InterpolatorPoly
 
 /*****************************************************************************
 
@@ -132,15 +119,12 @@ ResamplerPoly::~ResamplerPoly(void)
     None.
 
 *****************************************************************************/
-void ResamplerPoly::resetFilterState(void)
+void InterpolatorPoly::resetFilterState(void)
 {
   int i;
 
   // Set to the beginning of filter state memory.
   ringBufferIndex = 0;
-
-  // Start out with commutator position 0.
-  decimationCounter = 0;
 
   // Clear the filter state.
   for (i = 0; i < polyphaseFilterLength; i++)
@@ -171,7 +155,7 @@ void ResamplerPoly::resetFilterState(void)
     y - The output value of the filter.
 
 *****************************************************************************/
-float ResamplerPoly::filterData(float *coefficientsPtr)
+float InterpolatorPoly::filterData(float *coefficientsPtr)
 {
   float *h, y;
   int k, xIndex;
@@ -251,15 +235,14 @@ float ResamplerPoly::filterData(float *coefficientsPtr)
 
     interpolationFactor - The interpolation factor of the interpolator.
 
-
   Outputs:
 
     None.
 
 *****************************************************************************/
-void ResamplerPoly::createPolyphaseCoefficients(int filterLength,
-                                               float *coefficientsPtr,
-                                               int interpolationFactor)
+void InterpolatorPoly::createPolyphaseCoefficients(int filterLength,
+                                                   float *coefficientsPtr,
+                                                   int interpolationFactor)
 {
   int i, j;
   int lookupIndex;
@@ -322,7 +305,7 @@ void ResamplerPoly::createPolyphaseCoefficients(int filterLength,
     None.
 
 *****************************************************************************/
-void ResamplerPoly::advancePipeline(void)
+void InterpolatorPoly::advancePipeline(void)
 {
 
   // Increment the index in a modulo fashion.
@@ -339,84 +322,53 @@ void ResamplerPoly::advancePipeline(void)
 
 /*****************************************************************************
 
-  Name: resample
+  Name: interpolate
 
   Purpose: The purpose of this function is to perform the function of an
-  interpolator that interpolates by the factor L/M.  Here's how things
+  interpolator that interpolates by the factor L.  Here's how things
   work.  First, the sample is pushed into the pipeline.  Next, the selected
   FIR subfilter is invoked using the appropriate polyphase filter and the
-  filtered output is stored in next location in the output buffer. This
-  filtering operation is conditionally performed the number of times as
-  dictated by the value of the interpolation factor divided by the
+  filtered output is stored in next location in the output buffer.
   decimation factor.  For example, if the interpolation factor were equal to
-  4 and the decimation factor were equal to 3, there would exist 4 sets of
-  polyphase coefficients, but only every third set would be presented to
-  the FIR filter.
-  The bottom line is that for every input sample, L/M output samples are
-  generated, given that L is the interpolation factor and M is the decimation
-  factor..
+  4, there would exist 4 sets of polyphase coefficients that would be
+  presented to the FIR filter and 4 outputs generated.
+  The bottom line is that for every input sample, L output samples are
+  generated, given that L is the interpolation factor.
 
-  Calling Sequence:  outputSampleCount = resample(inputSample,
-                                                  outputBufferPtr)
+  Calling Sequence:  outputSampleCount = interpolate(inputSample,
+                                                     outputBufferPtr)
 
   Inputs:
 
     inputSample - A pointer to a buffer to be decimated.
 
     outputBufferPtr - A pointer to storage that is to accept the
-    interpolated (or decimated if L < M) data.
+    interpolated data.
 
   Outputs:
 
     outputSampleCount - The number of samples that were generated.
 
 *****************************************************************************/
-uint32_t ResamplerPoly::resample(float inputSample,float *outputBufferPtr)
+uint32_t InterpolatorPoly::interpolate(float inputSample,
+                                       float *outputBufferPtr)
 {
   int i;
-  uint32_t outputSampleCount;
 
   // Store the sample into the pipeline.
   filterStatePtr[ringBufferIndex] = inputSample;
 
-  // Indicate that no interpolated samples were retained.
-  outputSampleCount = 0;
-
   // Perform the interpolation operation.
   for (i = 0; i < interpolationFactor; i++)
   {
-    // This actually performs the decimation by M.
-    if (decimationCounter == 0)
-    {
-      // Run the selected subfilter.
-      outputBufferPtr[outputSampleCount] =
-          filterData(coefficientStoragePtr[i]);
-
-      // Another interpolated output has been saved.
-      outputSampleCount++;
-    } // if
-
-    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-    // This block of code performs an efficient modulo
-    // M increment, where M is the decimation factor.
-    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-    // Reference the next subfilter.
-    decimationCounter++;
-
-    // Force the increment to be modulo M.
-    if (decimationCounter == decimationFactor)
-    {
-      // Wrap around.
-      decimationCounter = 0;
-    } // if
-    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
+    // Run the selected subfilter.
+    outputBufferPtr[i] = filterData(coefficientStoragePtr[i]);
   } // for
 
   // We're done, so advance the pipeline.
   advancePipeline();
 
-  return (outputSampleCount);
+  return (interpolationFactor);
 
-} // resample
+} // interpolate
 

@@ -1,5 +1,5 @@
 //**************************************************************************
-// file name: ResamplerPoly.h
+// file name: InterpolatorPoly.h
 //**************************************************************************
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // This class implements a signal processing block known as a resampler,
@@ -29,27 +29,26 @@
 // polyphase filter.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-#ifndef __RESAMPLERPOLY__
-#define __RESAMPLERPOLY__
+#ifndef __INTERPOLATORPOLY__
+#define __INTERPOLATORPOLY__
 
 #include <stdint.h>
 
-class ResamplerPoly
+class InterpolatorPoly
 {
   //***************************** operations **************************
 
   public:
 
-  ResamplerPoly(int filterLength,
-                float *coefficientsPtr,
-                int interpolationFactor,
-                int decimationFactor);
+  InterpolatorPoly(int filterLength,
+                   float *coefficientsPtr,
+                   int interpolationFactor);
 
-  ~ResamplerPoly(void);
+  ~InterpolatorPoly(void);
 
   void resetFilterState(void);
 
-  uint32_t resample(float inputSample,float *outputBufferPtr);
+  uint32_t interpolate(float inputSample,float *outputBufferPtr);
 
   private:
 
@@ -77,12 +76,6 @@ class ResamplerPoly
 
   // Interpolation factor.
   int interpolationFactor;
-
-  // Decimation factor.
-  int decimationFactor;
-
-  // Modulo M counter, where, M is the decimation ratio.
-  int decimationCounter;
 };
 
-#endif // __RESAMPLERPOLY__
+#endif // __INTERPOLATORPOLY__
